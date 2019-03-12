@@ -7,21 +7,25 @@ import pickle
 import tensorflow as tf
 from app.config import MAX_LABELS
 from app.utils import sequences_from_list_of_text
+import os
+
 
 app = Flask(__name__)
 
+base_file_path = os.path.join(os.path.dirname(__file__), "res/")
+
 clear_session()
 
-json_file = open('./app/res/model.json', 'r')
+json_file = open(os.path.join(base_file_path, 'model.json'), 'r')
 loaded_model_json = json_file.read()
 json_file.close()
 model = model_from_json(loaded_model_json)
-model.load_weights("./app/res/weights.h5")
+model.load_weights(os.path.join(base_file_path, "weights.h5"))
 
-with open("./app/res/classes.json", 'r') as f:
+with open(os.path.join(base_file_path, "classes.json"), 'r') as f:
     CLASSES = json.load(f)
 
-with open('./app/res/tokenizer.pickle', 'rb') as handle:
+with open(os.path.join(base_file_path, 'tokenizer.pickle'), 'rb') as handle:
     tokenizer = pickle.load(handle)
 
 graph = tf.get_default_graph()
