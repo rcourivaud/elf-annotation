@@ -24,13 +24,12 @@ with open("./app/res/classes.json", 'r') as f:
 with open('./app/res/tokenizer.pickle', 'rb') as handle:
     tokenizer = pickle.load(handle)
 
+graph = tf.get_default_graph()
+
 
 @app.route('/')
 def index():
     return jsonify({"result": "Api is running"})
-
-
-graph = tf.get_default_graph()
 
 
 @app.route('/predict', methods=["POST"])
